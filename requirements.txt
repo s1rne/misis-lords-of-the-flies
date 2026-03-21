@@ -1,0 +1,14 @@
+rclpy>=0.9.0
+rclcpp>=0.9.0
+geometry-msgs>=0.9.0
+sensor-msgs>=0.9.0
+nav-msgs>=0.9.0
+tf2-ros>=0.28.0
+tf2-geometry-msgs>=0.28.0
+numpy>=1.24.0
+opencv-python>=4.8.0
+dronekit>=2.9.2
+dronekit-sitl>=3.8.0
+pymavlink>=2.4.40
+pillow>=10.0.0
+scipy>=1.11.0

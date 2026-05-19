@@ -20,29 +20,38 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 template = Image.open(TEMPLATE_PATH)
 width, height = template.size
 
-# Load fonts
+# Use sans-serif fonts like in example (not serif/italic)
 try:
-    name_font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Times New Roman Italic.ttf", 40)
-    place_font = ImageFont.truetype("/System/Library/Fonts/Times.ttc", 26)
+    # Regular sans-serif for name - smaller size like in example
+    name_font = ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", 32)
+    # Sans-serif for place
+    place_font = ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", 26)
 except:
     name_font = ImageFont.load_default()
     place_font = ImageFont.load_default()
 
 BLUE = (61, 155, 233)
 BLACK = (0, 0, 0)
+GRAY = (120, 120, 120)
 
 def generate_diploma(name):
     """Fill name and place in diploma template."""
     diploma = template.copy()
     draw = ImageDraw.Draw(diploma)
 
-    # Name position (first blank line after "награждается")
-    name_y = 427
+    # Name position - first blank line after "награждается" (~y=427)
+    name_y = 428
     bbox = draw.textbbox((0, 0), name, font=name_font)
-    name_x = (width - (bbox[2] - bbox[0])) // 2
+    name_width = bbox[2] - bbox[0]
+    name_x = (width - name_width) // 2
     draw.text((name_x, name_y), name, fill=BLACK, font=name_font)
 
-    # Place position - "2-е" fills the blank in "за ___ место" (same line as за/место)
+    # Underline under name
+    underline_y = name_y + 40
+    draw.line([(name_x - 20, underline_y), (name_x + name_width + 20, underline_y)],
+              fill=GRAY, width=1)
+
+    # Place position - "2-е" on same line as "за ___ место"
     place_y = 671
     place_x = 305
     draw.text((place_x, place_y), "2-е", fill=BLUE, font=place_font)
